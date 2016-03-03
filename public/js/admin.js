@@ -13,8 +13,8 @@ socket.on('init', function (data){
 
       html += '<div class="list-group-item '+active+'">'+
       '<div class="btn-group pull-right">'+
-      '<a href="#" class="btn btn-xs btn-default details"  data-title="'+titre.title+'" data-class="'+titre.class+'" data-duration="1"><i class="fa fa-fw fa-edit"></i></a>'+
-      '<a href="#" class="btn btn-xs btn-default activate" data-title="'+titre.title+'" data-class="'+titre.class+'" data-duration="1"><i class="fa fa-fw fa-rocket"></i></a>'+
+      '<a href="#" class="btn btn-xs btn-default details"  data-i="'+i+'" data-title="'+titre.title+'" data-class="'+titre.class+'" data-duration="'+titre.duration+'"><i class="fa fa-fw fa-edit"></i></a>'+
+      '<a href="#" class="btn btn-xs btn-default activate" data-i="'+i+'" data-title="'+titre.title+'" data-class="'+titre.class+'" data-duration="'+titre.duration+'"><i class="fa fa-fw fa-rocket"></i></a>'+
       '</div><span class="badge pull-right">'+titre.class+'</span>'+
       '<i class="fa fa-fw fa-ticket"></i>'+titre.title+'</div>';
     }
@@ -32,7 +32,17 @@ $('.panel-body').on('click', '.activate', function (e) {
 
   socket.emit('display', data);
 })
-/*
+
+$('#directSend').on('click', function (e) {
+  e.preventDefault();
+  var data = {
+    "title" : $('#directTitle').val(),
+    "duration": $('#directDuration').val()
+  };
+
+  socket.emit('display', data)
+})
+
 $('.form_close').on('click', function(e) {
   e.preventDefault();
 
@@ -42,34 +52,33 @@ $('.form_close').on('click', function(e) {
 $('.form_send').on('click', function (e) {
   e.preventDefault();
 
-  // data = {
-    // titre: $('#form_titre').val(),
-    // class: $('#form_class').val(),
-    // duration: $('#form_duration').val()
-  // };
+  data = {
+    titre: $('#form_titre').val(),
+    class: $('#form_class').val(),
+    duration: $('#form_duration').val(),
+    i: $('#form_i').val()
+  };
+  socket.emit('update', data)
 
-    // Save and Emit
-    $('.div_form').hide();
+  // Save and Emit
+  $('.div_form').hide();
 
 })
 
 $('.panel-body').on('click', '.details', function (e) {
 
-  // e.preventDefault();
-  // var i = $(this).data('i');
+  e.preventDefault();
 
-  // $('.div_form').show();
-  // titre = titres[i];
+  $('.div_form').show();
 
-  // $('#form_name').val(titre.content.name);
-  // $('#form_titre').val(titre.content.titre);
-  // $('#form_class').val(titre.content.class);
-  // $('#form_duration').val(titre.content.duration);
-  // $('#form_uri').val(titre.path);
+  $('#form_titre').val($(this).data('title'));
+  $('#form_class').val($(this).data('class'));
+  $('#form_duration').val($(this).data('duration'));
+  $('#form_i').val($(this).data('i'));
 
-  // $('.form_send').text('Update').addClass('btn-primary').removeClass('btn-success');
+  $('.form_send').text('Update').addClass('btn-primary').removeClass('btn-success');
 })
-
+/*
 $('.trashed').on('click', function (e) {
   e.preventDefault();
 
@@ -83,18 +92,17 @@ $('.trashed').on('click', function (e) {
     // $('.div_form').hide();
 
 });
-
+*/
 $('.newTitre').on('click', function (e) {
   e.preventDefault();
 
   $('.div_form').show();
 
-  $('#form_name').val('');
   $('#form_titre').val('');
   $('#form_class').val('geekinc');
   $('#form_duration').val('');
-  $('#form_uri').val('');
+  $('#form_i').val('-1');
 
 
   $('.form_send').text('New').removeClass('btn-primary').addClass('btn-success');
-})*/
+})
