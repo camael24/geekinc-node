@@ -28,7 +28,7 @@
     bottom: 0.5em;
     left: 1em;
 }
-.hidden-geekinc {
+.geekinc {
     transform : scaleX(0);
     color: #e95f24;
 }
@@ -63,7 +63,7 @@
     bottom: 0.5em;
     left: 1em;
 }
-.hidden-geekinc-bits {
+.geekinc-bits {
     transform : scaleX(0);
     color: #ff0000;
 }
@@ -71,4 +71,8 @@
 .transition {
     transition: transform 1s, color 1s ease-in-out;
     transform-origin: left;
+}
+.transition-inverse {
+    transition: transform 1s, color 1s ease-in-out;
+    transform-origin: right;
 }

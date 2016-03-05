@@ -7,25 +7,27 @@
     </head>
     <body>
         <img id="logo">
-        <div id="title" class="hidden-geekinc transition text-geekinc">
-        </div>
+        <div id="title" class="geekinc"></div>
     </body>
     <script type="text/javascript">
         var socket = io.connect();
         socket.on('display_title', function (title){
 
+          var c = title.class;
           var t = $('#title');
 
-          console.log(t.attr('class'))
-          console.log(t.attr('class').replace(/(text-\d+)/g, ''));
-
-          //t.attr('class', );
+          if(t.text() !== '') {
+            console.log("sssss")
+            t.show("slide", { direction: "left" }, 1000);;
+          }
 
           t.text(title.title);
 
+          t.attr('class', 'transition text-'+ c);
+
           if(title.duration){
             setTimeout(function(){
-               t.addClass('hidden-'+prev);
+               t.addClass(c);
             }, title.duration*1000);
           }
 
