@@ -6,9 +6,6 @@ socket.on('init', function (data){
 
   for(var i=0 ; i < data.length; i++) {
       titre = data[i];
-
-      console.log(titre);
-
       var active = (titre.current == true) ? 'active' : '';
 
       html += '<div class="list-group-item '+active+'">'+
@@ -53,12 +50,12 @@ $('.form_send').on('click', function (e) {
   e.preventDefault();
 
   data = {
-    titre: $('#form_titre').val(),
+    title: $('#form_titre').val(),
     class: $('#form_class').val(),
     duration: $('#form_duration').val(),
     i: $('#form_i').val()
   };
-  socket.emit('update', data)
+  socket.emit('save', data)
 
   // Save and Emit
   $('.div_form').hide();
