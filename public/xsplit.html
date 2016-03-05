@@ -2,17 +2,33 @@
 <html>
     <head>
         <link href="style.css" type="text/css" rel="stylesheet">
+        <script type="text/javascript" src="/js/jquery.js"></script>
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     </head>
     <body>
         <img id="logo">
-        <div id="title" class="hidden transition text-geekinc">
+        <div id="title" class="hidden-geekinc transition text-geekinc">
         </div>
     </body>
     <script type="text/javascript">
         var socket = io.connect();
         socket.on('display_title', function (title){
-          console.log(title)
+
+          var t = $('#title');
+
+          console.log(t.attr('class'))
+          console.log(t.attr('class').replace(/(text-\d+)/g, ''));
+
+          //t.attr('class', );
+
+          t.text(title.title);
+
+          if(title.duration){
+            setTimeout(function(){
+               t.addClass('hidden-'+prev);
+            }, title.duration*1000);
+          }
+
         });
     </script>
 </html>
