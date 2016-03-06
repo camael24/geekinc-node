@@ -17,7 +17,6 @@ function show(t, c, h, tl) {
   TweenLite.to(title, 1, {transform: 'scaleX(1)', "transform-origin": 'left', color: 'white'});
 
   if(h && h > 0) {
-    console.log('Hide after', h)
     tl.addPause('+='+h, hide);
   }
 }

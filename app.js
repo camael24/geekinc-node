@@ -30,7 +30,6 @@ fs.lstat(file, function(err, stats) {
       socket.on('display', function (data) {
         console.log('display', data);
         io.sockets.emit('display_title', data);
-        // TODO : do the display
       })
 
       socket.on('save', function (e) {
