@@ -24,7 +24,8 @@ $('.panel-body').on('click', '.activate', function (e) {
   var data = {
     "title" : $(this).data('title'),
     "class": $(this).data('class'),
-    "duration": $(this).data('duration')
+    "duration": $(this).data('duration'),
+    "i" : $(this).data('i')
   };
 
   socket.emit('display', data);

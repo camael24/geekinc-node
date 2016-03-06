@@ -9,6 +9,7 @@ var util      = require('util')
 var file = 'data.json'
 var data = [];
 
+
 fs.lstat(file, function(err, stats) {
 
     if (!err && stats.isFile()) {
@@ -23,24 +24,68 @@ fs.lstat(file, function(err, stats) {
          res.send('Hello');
     });
 
+
+    function save() {
+
+    }
+
     io.on('connection', function (socket) {
 
       io.sockets.emit('init', data);
 
-      socket.on('display', function (data) {
-        console.log('display', data);
-        io.sockets.emit('display_title', data);
+      socket.on('display_current', function () {
+
+        for(j = 0; j < data.length ; j++) {
+          if(data[j].current == true) {
+            console.log('auto display', data[j])
+            var d = data[j];
+            d.i = '-1'
+            io.sockets.emit('display_title', d);
+            return
+          }
+        }
+      });
+
+      socket.on('display', function (e) {
+        console.log('display', e);
+
+        if(e.i != undefined) {
+          for(j = 0; j < data.length ; j++) {
+            data[j].current = false
+          }
+
+          data[e.i].current = true;
+
+
+          jsonfile.writeFileSync(file, data);
+          io.sockets.emit('init', data);
+        }
+
+        io.sockets.emit('display_title', e);
+      })
+
+      socket.on('current', function (i) {
+
+
       })
 
       socket.on('save', function (e) {
         // TODO : bug on first addition (see the i value)
 
-        if (e.i  > 0) {
-          data[e.i] = e;
-        }
-        else {
-          e.i = null
-          data.push(e);
+        if(e) {
+          var i = e.i;
+          delete e.i;
+
+          if(!e.current) {
+            e.current = false;
+          }
+
+          if (i  >= 0) {
+            data[i] = e;
+          }
+          else {
+            data.push(e);
+          }
         }
         console.log('save', data)
 
